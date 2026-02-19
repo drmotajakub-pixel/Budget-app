@@ -1,0 +1,25 @@
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+st.set_page_config(page_title="Budget Tracker", page_icon="💰")
+
+st.title("🕺 Jakub's Finance Hub")
+
+# Sidebar for adding data
+with st.sidebar:
+    st.header("Add Transaction")
+    t_type = st.selectbox("Type", ["Spending", "Earning"])
+    cat = st.text_input("Category", placeholder="e.g. Studio Rental")
+    amt = st.number_input("Amount (HKD)", min_value=0.0)
+    if st.button("Add to Budget"):
+        st.toast(f"Added {cat}!")
+
+# Sample Visuals
+st.subheader("Monthly Breakdown")
+mock_data = pd.DataFrame({
+    'Category': ['Studio', 'Costumes', 'Physio', 'Coaching'],
+    'Amount': [5000, 3000, 1200, 8000]
+})
+fig = px.pie(mock_data, values='Amount', names='Category', hole=0.5, color_discrete_sequence=px.colors.sequential.RdBu)
+st.plotly_chart(fig, use_container_width=True)
